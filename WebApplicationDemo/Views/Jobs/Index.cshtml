@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebApplicationDemo.Models.Job>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Available Jobs</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-info">Create New Job</a>
+</p>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Content)
+            </td>
+            <td>
+               <img src="~/Images/Jobs/@item.Image" width="100" height="100" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" class="btn btn-secondary" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

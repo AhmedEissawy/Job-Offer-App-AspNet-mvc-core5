@@ -1,0 +1,97 @@
+﻿@model WebApplicationDemo.Models.Job
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+
+   <div class="alert alert-danger" id="errorlist" style="display:none">
+
+       <span id="err">
+
+       </span>
+
+   </div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Image" />
+
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <input asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="File" class="control-label"></label>
+                <input type="file" asp-for="File" class="form-control" />
+                <span asp-validation-for="File" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control">
+                    <option>---------</option>
+                    @foreach (var item in ViewBag.result)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" id="save" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  <script>
+      $(function () {
+          $('#save').click(function () {
+
+              // check if extension image is valid
+
+              if (($('#File').val() != '')) {
+
+                  var fileName = $('#File').val();
+
+                  var extensionImage = fileName.substr(fileName.lastIndexOf('.') + 1);
+
+                  var validExtensions = ['png', 'jpg', 'gif'];
+
+                  if ($.inArray(extensionImage, validExtensions)) {
+                      $('#errorlist').fadeIn();
+                      $('#err').append('Please choose valid extension');
+                      return false;
+                  }
+
+                  // check if file size (2 mb)
+
+                  var fileSize = document.getElementById('#File').files[0].size / 1024 / 1024;
+
+                  if (fileSize > 2) {
+                      $('#errorlist').fadeIn();
+                      $('#err').append('Please file size should not greater than 2 mb');
+                      return false;
+                  }
+              }
+          })
+      })
+
+  </script>
+
+}

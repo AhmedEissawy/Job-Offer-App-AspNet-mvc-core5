@@ -1,0 +1,52 @@
+﻿
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationDbContext context
+
+
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name</a>
+        </li>
+        <li class="nav-item">
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            </form>
+        </li>
+
+        var userId = UserManager.GetUserId(User);
+
+        var currentUser = context.Users.Where(u => u.Id == userId).SingleOrDefault();
+
+        @if (currentUser.UserType == "Publisher")
+        {
+            <li class="nav-item">
+                <a asp-action="GetJobsByPublisher" asp-controller="Home" style="margin-right:7px" class="btn btn-success">Published Jobs</a>
+            </li>
+            <li class="nav-item">
+                <a asp-action="Create" asp-controller="Jobs" class="btn btn-success">New Job</a>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item">
+                <a asp-action="AppliedJobsBySearcher" asp-controller="Home" class="btn btn-success">Applied Jobs</a>
+            </li>
+       
+        }
+
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>

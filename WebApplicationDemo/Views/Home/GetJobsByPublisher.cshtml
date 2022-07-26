@@ -1,0 +1,48 @@
+﻿@model IEnumerable<JobViewModel>
+
+@{
+    ViewData["Title"] = "GetJobsByPublisher";
+
+}
+
+<h1>GetJobsByPublisher</h1>
+
+
+@foreach (var gr in Model)
+{
+    <p>
+        <h3>@gr.JobTitle</h3>
+    </p>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>
+                   Applicant Name
+                </th>
+                <th>
+                   Apply Message
+                </th>
+                <th>
+                   Apply Date
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in gr.items)
+            {
+                <tr>
+                    <td>
+                        @item.User.UserName
+                    </td>
+                    <td>
+                       @item.Message
+                    </td>
+                    <td>
+                        @item.ApplyDate
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

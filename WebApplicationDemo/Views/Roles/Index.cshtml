@@ -1,0 +1,38 @@
+﻿@model IEnumerable<IdentityRole>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Available Roles</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-info">Create New Role</a>
+</p>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+               
+                <td>
+                    <a asp-action="Edit" class="btn btn-primary" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" class="btn btn-secondary" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
